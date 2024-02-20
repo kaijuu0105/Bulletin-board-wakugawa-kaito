@@ -2,10 +2,12 @@ import React, { useEffect } from 'react'
 import { Head } from '@inertiajs/react';
 import Header from '../../Components/Header';
 import TextInput from '@/Components/TextInput';
-import Select from '@/Components/Select';
+import MainCategoriesSelect from '../../Components/MainCategoriesSelect';
 import PrimaryButton from '@/Components/PrimaryButton';
 import { useForm } from '@inertiajs/react';
 
+
+// 引数はコントローラーからの受け渡し
 export default function MainCategories ({ auth, mainCategories }) {
     // const mainCategoryInput = useRef();
     console.log(mainCategories);
@@ -41,6 +43,9 @@ export default function MainCategories ({ auth, mainCategories }) {
     <>
         <Head title="カテゴリー" />
         <Header user={auth.user}/>
+        <header className="">
+                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">カテゴリー作成画面</div>
+        </header>
         <div>
             <div>
                 <div className='createMainCategories'>
@@ -65,14 +70,13 @@ export default function MainCategories ({ auth, mainCategories }) {
                 <div>
                     <h4>サブカテゴリー</h4>
                     <form onSubmit={subCategoryCreateSubit}>
-                        <Select 
+                        <MainCategoriesSelect 
                             id="mainCategoryId"
                             name="mainCategoryId"
                             value={data.mainCategoryId}
                             onChange={(e) => setData('mainCategoryId', e.target.value)}
                             mainCategories={mainCategories}
-                        >    
-                        </Select>
+                        />    
                         {/* <select name="mainCategoriesId">
                             <option value="none">----</option>
                             {mainCategories.map(mainCategory => (
@@ -96,7 +100,25 @@ export default function MainCategories ({ auth, mainCategories }) {
             <div>
                 <div>
                     <h4>カテゴリー一覧</h4>
-                    <ul>
+                    
+                    {mainCategories.map(mainCategory => (
+                        <ul key={mainCategory.id}>  
+                            {mainCategory.sub_categories ? 
+                                <>
+                                    <p>{mainCategory.main_category}</p>
+                                    <button>削除</button>
+                                </>
+                                : <p>{mainCategory.main_category}</p>
+                            }
+                            {mainCategory.sub_categories.map(subCategory => (    
+                                <li key={subCategory.id}>{subCategory.sub_category}<button>削除</button></li>
+                                // <Button />
+                            ))}
+                        </ul>
+                       
+                        
+                    ))}
+                    {/* <ul>
                         <p>Laravel</p>
                         <li>クラッド</li>
                         <button>削除</button>
@@ -106,7 +128,7 @@ export default function MainCategories ({ auth, mainCategories }) {
                     <ul>
                         <p>React</p>
                         <button>削除</button>
-                    </ul>
+                    </ul> */}
                 </div>
             </div>
         </div>

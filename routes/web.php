@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::namespace('Post')->group(function(){
             //Route::get('/', [Controller::class, ''])->name('');
             Route::get('/post/create', [PostsController::class, 'postCreate'])->name('post.create');
-            
+            Route::post('/post/create/input', [PostsController::class, 'postInput'])->name('post.input');
             
         });
     });

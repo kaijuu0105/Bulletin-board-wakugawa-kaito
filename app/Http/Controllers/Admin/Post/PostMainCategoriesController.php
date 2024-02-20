@@ -17,7 +17,7 @@ class PostMainCategoriesController extends Controller
      public function categories()
      {
           $mainCategories = PostMainCategory::with('subCategories')->get();
-          dd($mainCategories);
+          // dd($mainCategories);
           return Inertia::render('Posts/MainCategories',['mainCategories' => $mainCategories]);
      }
 

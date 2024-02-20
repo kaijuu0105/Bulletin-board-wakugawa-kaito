@@ -11,32 +11,37 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\Categories\PostSubCategory;
+use App\Models\Posts\Post;
 
 class PostsController extends Controller
 {
 
     public function postCreate() {
-        return Inertia::render('Posts/PostCreate');
+        $subCategories = PostSubCategory::get();
+        return Inertia::render('Posts/PostCreate',['subCategories' => $subCategories]);
     }
 
-    // サンプル
-    public function show()
+    public function postInput(Request $request)
     {
-        return view('posts.top');
+        $userId = Auth::id();
+        // dd($request);
+        Post::create([
+        'user_id' => $userId,
+        'post_sub_category_id' => $request->subCategoryId,
+        'title' => $request->title,
+        'post' => $request->post
+        ]);
+        return redirect('top');
     }
 
-    // public function postCreate()
+    // public function postUpdate()
     // {
-    //     return view('posts.postCreate');
+    //     return view('posts.postUpdate');
     // }
 
-    public function postUpdate()
-    {
-        return view('posts.postUpdate');
-    }
-
-    public function logout(){
-        Auth::logout();
-        return redirect('/login');
-    }
+    // public function logout(){
+    //     Auth::logout();
+    //     return redirect('/login');
+    // }
 }
