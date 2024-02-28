@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react';
 import { Head } from '@inertiajs/react';
 import Header from '../../Components/Header';
 import TextInput from '@/Components/TextInput';
@@ -8,21 +8,14 @@ import { useForm } from '@inertiajs/react';
 
 
 // 引数はコントローラーからの受け渡し
-export default function MainCategories ({ auth, mainCategories }) {
-    // const mainCategoryInput = useRef();
-    console.log(mainCategories);
-
+export default function MainCategories ({ auth, mainCategories}) {
+   
     const { data, setData, post, processing, reset } = useForm({
         mainCategory: '',
         mainCategoryId: '',
         subCategory: ''
     });
 
-    // useEffect(() => {
-    //     return () => {
-    //         reset('mainCategory');
-    //     };
-    // }, []);
 
     const mainCategoryCreateSubit = (e) => {
         e.preventDefault();
@@ -77,22 +70,14 @@ export default function MainCategories ({ auth, mainCategories }) {
                             onChange={(e) => setData('mainCategoryId', e.target.value)}
                             mainCategories={mainCategories}
                         />    
-                        {/* <select name="mainCategoriesId">
-                            <option value="none">----</option>
-                            {mainCategories.map(mainCategory => (
-                                <option 
-                                    value={mainCategory.id} key={mainCategory.id} onChange={(e) => setData('mainCategoryId', e.target.value)}>
-                                    {mainCategory.main_category}
-                                </option>
-                            ))};
-                        </select>*/}
+                        
                         <TextInput
                             type="text" 
                             name='subCategory' 
                             value={data.subCategory}
                             onChange={(e) => setData('subCategory', e.target.value)}
                             placeholder="サブカテゴリーを追加"
-                         />                    
+                        />                    
                         <button>追加</button>
                     </form>
                 </div>
@@ -100,35 +85,32 @@ export default function MainCategories ({ auth, mainCategories }) {
             <div>
                 <div>
                     <h4>カテゴリー一覧</h4>
-                    
-                    {mainCategories.map(mainCategory => (
-                        <ul key={mainCategory.id}>  
-                            {mainCategory.sub_categories ? 
-                                <>
-                                    <p>{mainCategory.main_category}</p>
-                                    <button>削除</button>
-                                </>
-                                : <p>{mainCategory.main_category}</p>
-                            }
-                            {mainCategory.sub_categories.map(subCategory => (    
-                                <li key={subCategory.id}>{subCategory.sub_category}<button>削除</button></li>
-                                // <Button />
-                            ))}
-                        </ul>
-                       
-                        
+                    {mainCategories.map((mainCategory, index) => (
+                        <div key={mainCategory.id}>
+                            <h4>{mainCategory.main_category}</h4>
+
+                                {(() => {
+                                    if(mainCategories[index].sub_categories.length === 0 ) {
+                                        return  <>
+                                                    <button>削除</button>
+                                                </>
+                                    } else {
+                                        return  <>
+                                                    <p>{mainCategory.main_category}</p>
+                                                </>
+                                    }
+                                })()}
+
+                                <ul>
+                                    {mainCategory.sub_categories.map(subCategory => ( 
+                                        <React.Fragment key={subCategory.id}>
+                                            
+                                            <li >{subCategory.sub_category}<button>{subCategory.id}削除</button></li>
+                                        </React.Fragment>
+                                    ))}
+                                </ul>
+                        </div>
                     ))}
-                    {/* <ul>
-                        <p>Laravel</p>
-                        <li>クラッド</li>
-                        <button>削除</button>
-                        <li>データベース</li>
-                        <button>削除</button>
-                    </ul>
-                    <ul>
-                        <p>React</p>
-                        <button>削除</button>
-                    </ul> */}
                 </div>
             </div>
         </div>

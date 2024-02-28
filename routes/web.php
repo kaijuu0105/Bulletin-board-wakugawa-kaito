@@ -30,9 +30,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/top', function () {
-    return Inertia::render('Index');
-})->middleware(['auth', 'verified'])->name('top');
+// Route::get('/top', function () {
+//     return Inertia::render('Index');
+// })->middleware(['auth', 'verified'])->name('top');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::namespace('User')->group(function(){
         Route::namespace('Post')->group(function(){
             //Route::get('/', [Controller::class, ''])->name('');
+            Route::get('/top', [PostsController::class, 'show'])->name('top');
             Route::get('/post/create', [PostsController::class, 'postCreate'])->name('post.create');
             Route::post('/post/create/input', [PostsController::class, 'postInput'])->name('post.input');
             

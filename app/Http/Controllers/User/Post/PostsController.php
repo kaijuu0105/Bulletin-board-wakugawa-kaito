@@ -17,11 +17,19 @@ use App\Models\Posts\Post;
 class PostsController extends Controller
 {
 
+    public function show(Request $request){
+        $posts = Post::get();
+        return Inertia::render('Index',['posts' => $posts]);
+    }
+
+
+    // 画面遷移
     public function postCreate() {
         $subCategories = PostSubCategory::get();
         return Inertia::render('Posts/PostCreate',['subCategories' => $subCategories]);
     }
 
+    // 投稿の作成
     public function postInput(Request $request)
     {
         $userId = Auth::id();
